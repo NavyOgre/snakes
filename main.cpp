@@ -9,10 +9,11 @@ int main() {
         intro();
         int load_action {loading_dialogue()};
         switch (load_action) {
-                // new game
+                // load previous game
                 case 2: {
                         // initialize from file
                 }
+                // new game
                 default: {
                         // initialize from user input
                 }
