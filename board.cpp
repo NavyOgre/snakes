@@ -16,6 +16,7 @@ int loading_dialogue() {
                 if (input != 1 && input != 2) {
                         std::cout << "Invalid input, try again.\n";
                 }
+                // should check if a file exists to load
         } while (input != 1 && input != 2);
         return input;
 }
