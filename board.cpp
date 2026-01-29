@@ -8,17 +8,18 @@ int intro() {
         std::cout << "Would you like to start a new game or load a previous game?\n";
         std::cout << "1. New game\n";
         std::cout << "2. Load previous game\n";
+        std::cout << "Enter your choice: ";
         int input {};
         do {
                 std::cin >> input;
                 if (input != 1 && input != 2) {
-                        std::cout << "Invalid input, try again.\n";
+                        std::cout << "Invalid input, try again: ";
                 }
         } while (input != 1 && input != 2);
         return input;
 }
 
-void init_board(const int load_action, std::vector<Square> &board) {
+void init_board(std::vector<Square> &board) {
         board = {
         {'n', 0}, {'n', 0}, {'c', 2}, {'l', 10}, {'n', 0}, {'n', 0}, {'n', 0}, {'c', 1}, {'l', 22}, {'n', 0},
         {'n', 0}, {'n', 0}, {'c', 2}, {'n', 0}, {'n', 0}, {'n', 0}, {'s', -10}, {'n', 0}, {'n', 0}, {'c', 1},
@@ -31,17 +32,9 @@ void init_board(const int load_action, std::vector<Square> &board) {
         {'n', 0}, {'n', 0}, {'c', 3}, {'n', 0}, {'n', 0}, {'n', 0}, {'s', -63}, {'n', 0}, {'n', 0}, {'n', 0},
         {'n', 0}, {'n', 0}, {'s', -20}, {'n', 0}, {'s', -20}, {'n', 0}, {'n', 0}, {'s', -19}, {'n', 0}, {'n', 0}
         };
-        switch (load_action) {
-                // load from file
-                case 2: {
-                        // initialize from file
-                }
-                // new game
-                default: {
-                        // initialize from user input
-                }
-        }
 }
+
+
 
 void display_board(const std::vector<Square> &board) {
         for (int i {9}; i >= 0; --i) {

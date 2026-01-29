@@ -9,13 +9,13 @@ struct Square {
 };
 
 int intro();
-int loading_dialogue();
-void init_board(const int load_action, std::vector<Square> &board);
+void init_board(std::vector<Square> &board);
 void display_board(const std::vector<Square> &board);
 
 // helper functions for display_board
 std::string display_handle_case(const Square &square, int position);
 int display_find_position(const int i, const int j);
+
 
 
 #endif

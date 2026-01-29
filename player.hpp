@@ -1,6 +1,7 @@
 #ifndef _PLAYER_HPP_
 #define _PLAYER_HPP_
 #include <string>
+#include <vector>
 
 struct Player {
         bool is_bot;
@@ -13,7 +14,9 @@ struct Player {
 };
 
 int roll_die();
-
-
+int resolve_game_type();
+void init_game(const int load_action, std::vector<Player> &players);
+void init_players_new(const int game_type, std::vector<Player> &players);
+void init_players_load(std::vector<Player> &players);
 
 #endif
