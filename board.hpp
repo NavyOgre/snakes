@@ -1,7 +1,20 @@
 #ifndef _BOARD_HPP_
 #define _BOARD_HPP_
+#include <vector>
+#include <string>
+
+struct Square {
+        char type;
+        int data;
+};
 
 void intro();
 int loading_dialogue();
+void init_board(const int load_action, std::vector<Square> &board);
+void display_board(const std::vector<Square> &board);
+
+// helper function for display
+std::string display_handle_case(const Square &square, int position);
+
 
 #endif
