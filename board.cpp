@@ -2,12 +2,9 @@
 #include <iostream>
 #include <iomanip>
 
-void intro() {
+int intro() {
         std::cout << "Welcome! Thank you for trying my snakes and ladders game.\n";
         std::cout << "=========================================================\n\n\n";
-}
-
-int loading_dialogue() {
         std::cout << "Would you like to start a new game or load a previous game?\n";
         std::cout << "1. New game\n";
         std::cout << "2. Load previous game\n";
@@ -17,7 +14,6 @@ int loading_dialogue() {
                 if (input != 1 && input != 2) {
                         std::cout << "Invalid input, try again.\n";
                 }
-                // should check if a file exists to load
         } while (input != 1 && input != 2);
         return input;
 }
@@ -50,20 +46,23 @@ void init_board(const int load_action, std::vector<Square> &board) {
 void display_board(const std::vector<Square> &board) {
         for (int i {9}; i >= 0; --i) {
                 for (int j {0}; j < 10; ++j) {
-                        int position {};
-                        switch (i % 2) {
-                                case 0: {
-                                        position = 10 * i + j;
-                                        break;
-                                }
-                                default: {
-                                        position = 10 * i + 9 - j;
-                                }
-                        }
+                        int position {display_find_position(i, j)};
                         std::string output = display_handle_case(board.at(position), position);
                         std::cout << std::setw(10) << std::left << output;
                 }
                 std::cout << "\n\n";
+        }
+}
+
+int display_find_position(const int i, const int j) {
+        switch (i % 2) {
+                case 0: {
+                        return 10 * i + j;
+
+                }
+                default: {
+                        return 10 * i + 9 - j;
+                }
         }
 }
 
@@ -73,7 +72,7 @@ std::string display_handle_case(const Square &square, int position) {
                 case 'l':
                 case 's': {
                         output += square.type;
-                        output = output + "->" + std::to_string(position + 1 + square.data);
+                        output += "->" + std::to_string(position + 1 + square.data);
                         break;
                 }
                 case 'c': {
