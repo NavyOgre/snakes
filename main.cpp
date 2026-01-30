@@ -1,9 +1,9 @@
 #include "board.hpp"
 #include <iostream>
-#include <string>
 #include "player.hpp"
 
 int main() {
+        srand(time(0));
         std::vector<Square> board;
         init_board(board);
         int load_action {intro()};

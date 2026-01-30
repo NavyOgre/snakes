@@ -3,7 +3,6 @@
 #include <iostream>
 
 int roll_die() {
-        srand(time(0));
         return rand() % 6 + 1;
 }
 
@@ -64,9 +63,9 @@ void player_move(const int id, std::vector<Player> &players, int &roll, std::str
         }
         std::cout << "Would you like to buy anything from the shop?\n";
         std::cout << "0. continue\n";
-        std::cout << "1. reroll(3 coins)\n";
+        std::cout << "1. roll - 1(1 coin)\n";
         std::cout << "2. roll + 1(2 coins)\n";
-        std::cout << "3. roll - 1(1 coin)\n";
+        std::cout << "3. reroll(3 coins)\n";
         std::cout << "4. buy shield(4 coins)\n";
         std::cout << "Enter you choice: ";
         int choice {};
@@ -76,7 +75,7 @@ void player_move(const int id, std::vector<Player> &players, int &roll, std::str
                         std::cout << "Invalid choice, try again: ";
                         continue;
                 }
-                shop_action(id, players, choice, roll);
+                shop_action(players.at(id), choice, roll);
         } while (choice < 0 || choice > 4);
         int &position {players.at(id).position};
         if (position + roll > 99) {
@@ -90,60 +89,51 @@ void player_move(const int id, std::vector<Player> &players, int &roll, std::str
         }
 }
 
-void shop_action(const int id, std::vector<Player> &players, int &choice, int &roll) {
+void shop_action(Player &player, int &choice, int &roll) {
         switch (choice) {
                 case 1: {
-                        if (players.at(id).coin < 3) {
-                                std::cout << "You don't have enough coins to reroll, try again: ";
-                                choice = -1;
-                        } else {
-                                roll = roll_die();
-                                players.at(id).coin -= 3;
-                                if (roll == 6) {
-                                        players.at(id).bonus_turn = true;
-                                } else {
-                                        players.at(id).bonus_turn = false;
-                                }
-                        }
-                        break;
-                }
-                case 2: {
-                        if (players.at(id).coin < 2) {
-                                std::cout << "You don't have enough coins to add 1 to your roll, try again: ";
-                                choice = -1;
-                        } else if (roll == 6) {
-                                std::cout << "You can't roll any higher than 6, try again: ";
-                                choice = -1;
-                        } else {
-                                ++roll;
-                                players.at(id).coin -= 2;
-                        }
-                        break;
-                }
-                case 3: {
-                        if (players.at(id).coin < 1) {
+                        if (player.coin < 1) {
                                 std::cout << "You don't have enough coins to subtract 1 from your roll, try again: ";
                                 choice = -1;
                         } else if (roll == 1) {
                                 std::cout << "You can't roll any lower than 1, try again: ";
                                 choice = -1;
                         } else {
-                                --roll;
-                                players.at(id).coin -= 1;
-                                players.at(id).bonus_turn = false;
+                                roll_subtract1(player, roll);
+                        }
+                        break;
+                }
+                case 2: {
+                        if (player.coin < 2) {
+                                std::cout << "You don't have enough coins to add 1 to your roll, try again: ";
+                                choice = -1;
+                        } else if (roll == 6) {
+                                std::cout << "You can't roll any higher than 6, try again: ";
+                                choice = -1;
+                        } else {
+                                roll_plus1(player, roll);
+                        }
+                        break;
+                }
+                case 3: {
+                        if (player.coin < 3) {
+                                std::cout << "You don't have enough coins to reroll, try again: ";
+                                choice = -1;
+                        } else {
+                                reroll(player, roll);
+                                std::cout << "New roll: " << roll << "\n";
                         }
                         break;
                 }
                 case 4: {
-                        if (players.at(id).shield == true) {
+                        if (player.shield == true) {
                                 std::cout << "You already have a shield, try again: ";
                                 choice = -1;
-                        } else if (players.at(id).coin < 4) {
+                        } else if (player.coin < 4) {
                                 std::cout << "You don't have enough coins to buy a shield, try again: ";
                                 choice = -1;
                         } else {
-                                players.at(id).shield = true;
-                                players.at(id).coin -= 4;
+                                buy_shield(player);
                         }
                         break;
                 }
@@ -181,4 +171,30 @@ void resolve_move(const int id, std::vector<Player> &players, const int roll, co
                         rival_position = 0;
                 }
         }
+}
+
+void reroll(Player &player, int &roll) {
+        roll = roll_die();
+        player.coin -= 3;
+        if (roll == 6) {
+                player.bonus_turn = true;
+        } else {
+                player.bonus_turn = false;
+        }
+}
+
+void roll_plus1(Player &player, int &roll) {
+        ++roll;
+        player.coin -= 2;
+}
+
+void roll_subtract1(Player &player, int &roll) {
+        --roll;
+        player.coin -= 1;
+        player.bonus_turn = false;
+}
+
+void buy_shield(Player &player) {
+        player.shield = true;
+        player.coin -= 4;
 }
