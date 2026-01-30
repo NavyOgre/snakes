@@ -24,10 +24,21 @@ void init_players_new(const int game_type, std::vector<Player> &players) {
                 std::cout << "Enter player name: ";
                 std::cin >> name;
                 // is_bot name rival_id position coin shield bonus_turn
-                players.push_back(Player {false, name, (i + 1) % 2, 0, 0, false, false});
+                players.push_back(Player {0, name, (i + 1) % 2, 0, 0, false, false});
         }
         if (game_type == 1) {
-                players.push_back(Player {true, "Bot", 0, 0, 0, false, false});
+                std::cout << "Select bot difficulty\n";
+                std::cout << "1. Braindead\n";
+                std::cout << "2. Normal\n";
+                std::cout << "Enter your choice: ";
+                int difficulty {};
+                do {
+                        std::cin >> difficulty;
+                        if (difficulty != 1 && difficulty != 2) {
+                                std::cout << "Invalid choice, try again: ";
+                        }
+                } while (difficulty != 1 && difficulty != 2);
+                players.push_back(Player {difficulty, "Bot", 0, 0, 0, false, false});
         }
 }
 
@@ -145,6 +156,7 @@ void resolve_move(const int id, std::vector<Player> &players, const int roll, co
         int &position {players.at(id).position};
         int &rival_position {players.at(players.at(id).rival_id).position};
         bool &rival_shield {players.at(players.at(id).rival_id).shield};
+        std::string rival_name {players.at(players.at(id).rival_id).name};
         switch (board.at(position).type) {
                 case 'c': {
                         players.at(id).coin += board.at(position).data;
@@ -168,6 +180,7 @@ void resolve_move(const int id, std::vector<Player> &players, const int roll, co
                 if (rival_shield) {
                         rival_shield = false;
                 } else {
+                        std::cout << rival_name << " got hit by " << players.at(id).name << "!\n";
                         rival_position = 0;
                 }
         }

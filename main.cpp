@@ -1,6 +1,6 @@
-#include "board.hpp"
 #include <iostream>
 #include "player.hpp"
+#include "bot.hpp"
 
 int main() {
         srand(time(0));
@@ -12,16 +12,18 @@ int main() {
         std::string winner;
         int turn {0}, total_turns {0}, id {}, roll {};
         while (winner == "") {
-                display_board(board);
                 ++total_turns;
                 id = turn % 2;
-                if (!players.at(id).is_bot) {
+                if (!players.at(id).bot) {
+                        display_board(board);
                         roll = turn_anounce(id, players);
                         player_move(id, players, roll, winner, board);
-                        std::cout << "square: " << players.at(id).position + 1 << "\n\n";
                 } else {
-                        // bot move
+                        roll = roll_die();
+                        roll = bot_move(id, players, roll, winner, board);
+                        std::cout << "Bot rolled " << roll;
                 }
+                std::cout << "\n\n";
                 if (players.at(id).bonus_turn) {
                         players.at(id).bonus_turn = false;
                 } else {

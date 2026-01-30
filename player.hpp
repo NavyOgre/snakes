@@ -3,7 +3,7 @@
 #include "board.hpp"
 
 struct Player {
-        bool is_bot;
+        int bot;
         std::string name;
         int rival_id;
         int position;
