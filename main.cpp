@@ -9,7 +9,6 @@ int main() {
         int load_action {intro()};
         std::vector<Player> players;
         init_game(load_action, players);
-        
         std::string winner;
         int turn {0}, total_turns {0}, id {}, roll {};
         while (winner == "") {
@@ -20,12 +19,12 @@ int main() {
                         roll = turn_anounce(id, players);
                         player_move(id, players, roll, winner, board);
                         std::cout << "square: " << players.at(id).position + 1 << "\n\n";
-                        if (players.at(id).bonus_turn) {
-                                --turn;
-                                players.at(id).bonus_turn = false;
-                        }
                 } else {
                         // bot move
+                }
+                if (players.at(id).bonus_turn) {
+                        --turn;
+                        players.at(id).bonus_turn = false;
                 }
                 ++turn;
         }
