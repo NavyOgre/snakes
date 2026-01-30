@@ -23,10 +23,10 @@ int main() {
                         // bot move
                 }
                 if (players.at(id).bonus_turn) {
-                        --turn;
                         players.at(id).bonus_turn = false;
+                } else {
+                        ++turn;
                 }
-                ++turn;
         }
         std::cout << winner << " won the game!\n";
 }
