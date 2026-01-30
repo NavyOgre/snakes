@@ -16,6 +16,4 @@ void display_board(const std::vector<Square> &board);
 std::string display_handle_case(const Square &square, int position);
 int display_find_position(const int i, const int j);
 
-
-
 #endif
