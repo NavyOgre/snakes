@@ -1,5 +1,6 @@
 #include "board.hpp"
 #include <iostream>
+#include <iomanip>
 
 int ask_loading() {
         std::cout << "Would you like to start a new game or load the previous one?\n";
@@ -14,4 +15,58 @@ int ask_loading() {
                 }
         } while (load_input != 1 && load_input != 2);
         return load_input;
+}
+
+void init_board(std::vector<Square> &board) {
+        board = {
+        {'n', 0}, {'n', 0}, {'c', 4}, {'l', 10}, {'n', 0}, {'n', 0}, {'n', 0}, {'c', 6}, {'l', 22}, {'n', 0},
+        {'n', 0}, {'n', 0}, {'c', 4}, {'n', 0}, {'n', 0}, {'n', 0}, {'s', -10}, {'n', 0}, {'n', 0}, {'c', 3},
+        {'l', 21}, {'n', 0}, {'n', 0}, {'n', 0}, {'c', 4}, {'n', 0}, {'n', 0}, {'l', 56}, {'c', 2}, {'n', 0},
+        {'n', 0}, {'c', 4}, {'n', 0}, {'n', 0}, {'n', 0}, {'n', 0}, {'c', 3}, {'n', 0}, {'n', 0}, {'n', 0},
+        {'c', 4}, {'n', 0}, {'n', 0}, {'n', 0}, {'n', 0}, {'n', 0}, {'n', 0}, {'n', 0}, {'c', 2}, {'n', 0},
+        {'l', 16}, {'n', 0}, {'n', 0}, {'s', -20}, {'n', 0}, {'n', 0}, {'c', 6}, {'n', 0}, {'n', 0}, {'n', 0},
+        {'n', 0}, {'s', -43}, {'n', 0}, {'s', -4}, {'n', 0}, {'n', 0}, {'n', 0}, {'n', 0}, {'n', 0}, {'c', 4},
+        {'l', 20}, {'n', 0}, {'n', 0}, {'n', 0}, {'n', 0}, {'n', 0}, {'n', 0}, {'c', 6}, {'n', 0}, {'l', 19},
+        {'n', 0}, {'n', 0}, {'c', 2}, {'n', 0}, {'n', 0}, {'n', 0}, {'s', -63}, {'n', 0}, {'n', 0}, {'n', 0},
+        {'n', 0}, {'n', 0}, {'s', -20}, {'n', 0}, {'s', -20}, {'n', 0}, {'n', 0}, {'s', -19}, {'n', 0}, {'n', 0}
+        };
+}
+
+void display_board(const std::vector<Square> &board) {
+        int position {};
+        for (int i {9}; i >= 0; --i) {
+                for (int j {9}; j >= 0; --j) {
+                        position = find_position(i, j);
+                        std::string square_info {display_handle_case(board.at(position), position)};
+                        std::cout << std::setw(10) << std::left << square_info;
+                }
+                std::cout << "\n\n";
+        }
+}
+
+int find_position(const int i, const int j) {
+        if (i % 2) {
+                return i * 10 + j;
+        } else {
+                return i * 10 + 9 - j;
+        }
+}
+
+std::string display_handle_case(const Square &square, const int position) {
+        std::string output;
+        switch (square.type) {
+                case 'c': {
+                        output += std::to_string(position + 1) + "c=" + std::to_string(square.data);
+                        break;
+                }
+                case 's':
+                case 'l': {
+                        output += std::to_string(position + 1) + square.type + "->" + std::to_string(position + square.data + 1);
+                        break;
+                }
+                default: {
+                        output += std::to_string(position + 1);
+                }
+        }
+        return output;
 }
