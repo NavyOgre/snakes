@@ -14,6 +14,7 @@ int ask_loading() {
                         std::cout << "Invalid choice, try again: ";
                 }
         } while (load_input != 1 && load_input != 2);
+        std::cout << "\n\n";
         return load_input;
 }
 
@@ -69,4 +70,20 @@ std::string display_handle_case(const Square &square, const int position) {
                 }
         }
         return output;
+}
+
+int ask_game_type() {
+        int game_type {};
+        std::cout << "Would you like to play against a bot or another human?\n";
+        std::cout << "1. Human\n";
+        std::cout << "2. Bot\n";
+        std::cout << "Enter your choice: ";
+        do {
+                std::cin >> game_type;
+                if (game_type != 1 && game_type != 2) {
+                        std::cout << "Invalid choice, try again: ";
+                }
+        } while (game_type != 1 && game_type != 2);
+        std::cout << "\n\n";
+        return game_type;
 }
