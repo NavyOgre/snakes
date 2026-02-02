@@ -18,5 +18,6 @@ void turn_announce(const std::vector<Player> &players, const int id, const int d
 int roll(const int n);
 void player_move(std::vector<Player> &players, const int id, const int die_roll, const std::vector<Square> &board);
 void check_hit(Player &player, Player &rival);
+void resolve_move(const std::vector<Square> &board, Player &player);
 
 #endif
