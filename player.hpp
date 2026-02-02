@@ -5,7 +5,6 @@
 struct Player {
         int bot;
         std::string name;
-        int id;
         int rival_id;
         int position;
         int coin;

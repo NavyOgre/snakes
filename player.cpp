@@ -8,7 +8,7 @@ void get_player_info(std::vector<Player> &players, int players_cnt) {
         for (int i {0}; i < players_cnt; ++i) {
                 std::cout << "Enter player " << i + 1 << " name: ";
                 getline(std::cin, name);
-                players.push_back(Player {0, name, i, (i + 1) % 2, 0, 0, false, false});
+                players.push_back(Player {0, name, (i + 1) % 2, 0, 0, false, false});
         }
 }
 
