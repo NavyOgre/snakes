@@ -25,14 +25,14 @@ int main() {
                 if (!(players.at(current_player).bot)) {
                         display_board(board);
                         int die_roll {roll(6)};
+                        players.at(current_player).bonus_turn = die_roll == 6 ? true : false;
                         turn_announce(players, current_player, die_roll, board);
                         player_move(players, current_player, die_roll, board);
+                        check_winner(players.at(current_player), winner);
                 }
-                // test
-                ++turn;
-                if (total_turns > 20) {
-                        winner = "Amirreza";
+                if (!(players.at(current_player).bonus_turn)) {
+                        ++turn;
                 }
-                // end test
         }
+        std::cout << "\n\n" << winner << " won the game!\n";
 }
