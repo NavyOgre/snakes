@@ -16,3 +16,7 @@ int ask_difficulty() {
         } while (difficulty < 1 || difficulty > 3);
         return difficulty;
 }
+
+void init_bot(const int difficulty, std::vector<Player> &players) {
+        players.push_back(Player {difficulty, "Bot", 0, 0, 0, false, false});
+}

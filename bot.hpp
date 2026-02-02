@@ -4,5 +4,6 @@
 #include "shop.hpp"
 
 int ask_difficulty();
+void init_bot(const int difficulty, std::vector<Player> &players);
 
 #endif

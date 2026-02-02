@@ -18,6 +18,7 @@ int main() {
                 get_player_info(players, game_type);
                 if (game_type == 1) {
                         int difficulty {ask_difficulty()};
+                        init_bot(difficulty, players);
                 }
         } else {
                 // initialize game from file
