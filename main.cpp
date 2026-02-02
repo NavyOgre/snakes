@@ -13,6 +13,7 @@ int main() {
         init_board(board);
         int load_action {ask_loading()};
         std::vector<Player> players;
+        int turn {0}, total_turns {0};
         if (load_action == 1) {
                 int game_type {ask_game_type()};
                 get_player_info(players, game_type);
@@ -24,7 +25,6 @@ int main() {
                 // initialize game from file
         }
         std::string winner;
-        int turn {0}, total_turns {0};
         std::cout << std::boolalpha;
         while (winner.empty()) {
                 ++total_turns;

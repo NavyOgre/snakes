@@ -44,7 +44,7 @@ void player_move(std::vector<Player> &players, const int id, const int die_roll,
 void check_hit(Player &player, Player &rival) {
         if (player.position == rival.position) {
                 if (rival.shield) {
-                        std::cout << rival.name << " lost their shield!\n\n";
+                        std::cout << rival.name << " lost a shield while defending against " << player.name << "!\n\n";
                         rival.shield = false;
                 } else {
                         std::cout << rival.name << " got hit by " << player.name << "!\n\n";
@@ -71,10 +71,10 @@ void resolve_move(const std::vector<Square> &board, Player &player) {
                         if (player.shield) {
                                 player.shield = false;
                                 std::cout << player.name << " moved to " << position + 1;
-                                std::cout << " and used a shield to avoid getting hit by a snake!\n\n";
+                                std::cout << " and used a shield to avoid getting bitten by a snake!\n\n";
                         } else {
                                 position += board.at(position).data;
-                                std::cout << player.name << " got hit by a snake and fell to " << position + 1 << "!T_T\n\n";
+                                std::cout << player.name << " got bitten by a snake and fell to " << position + 1 << "!T_T\n\n";
                         }
                         break;
                 }
