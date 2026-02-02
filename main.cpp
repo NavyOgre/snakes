@@ -58,5 +58,5 @@ int main() {
                         ++turn;
                 }
         }
-        std::cout << "\n\n" << winner << " won the game in " << total_turns << "!\n";
+        std::cout << "\n\n" << winner << " won the game in " << total_turns << " turns!\n";
 }
