@@ -86,6 +86,8 @@ void shop_action(Player &player, int &die_roll, const int shop_choice) {
                         std::cout << "New roll: " << die_roll << "\n";
                         if (die_roll == 6) {
                                 player.bonus_turn = true;
+                        } else {
+                                player.bonus_turn = false;
                         }
                         break;
                 }
