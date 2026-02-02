@@ -24,3 +24,27 @@ void turn_announce(const std::vector<Player> &players, const int id, const int d
 int roll(const int n) {
         return rand() % n + 1;
 }
+
+void player_move(std::vector<Player> &players, const int id, const int die_roll, const std::vector<Square> &board) {
+        Player &player {players.at(id)};
+        Player &rival {players.at(player.rival_id)};
+        // if die_roll isn't 6 after shop action bonus turn should be assigned false
+        if (player.position + die_roll > 99) {
+                std::cout << "You can't move!\n\n";
+        } else {
+                player.position += die_roll;
+                check_hit(player, rival);
+        }
+}
+
+void check_hit(Player &player, Player &rival) {
+        if (player.position == rival.position) {
+                if (rival.shield) {
+                        std::cout << rival.name << " lost their shield!\n";
+                        rival.shield = false;
+                } else {
+                        std::cout << rival.name << " got hit by " << player.name << "!\n";
+                        rival.position = 0;
+                }
+        }
+}

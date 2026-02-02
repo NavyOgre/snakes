@@ -26,7 +26,13 @@ int main() {
                         display_board(board);
                         int die_roll {roll(6)};
                         turn_announce(players, current_player, die_roll, board);
+                        player_move(players, current_player, die_roll, board);
                 }
-                winner = "Amirreza"; // test
+                // test
+                ++turn;
+                if (total_turns > 20) {
+                        winner = "Amirreza";
+                }
+                // end test
         }
 }
