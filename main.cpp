@@ -1,6 +1,7 @@
 #include <iostream>
 #include "board.hpp"
 #include "player.hpp"
+#include "shop.hpp"
 
 int main() {
         std::cout << "Hello and welcome to my snakes and ladders game!\n";
@@ -27,6 +28,7 @@ int main() {
                         int die_roll {roll(6)};
                         players.at(current_player).bonus_turn = die_roll == 6 ? true : false;
                         turn_announce(players, current_player, die_roll, board);
+                        int shop_selection {get_shop_choice(players.at(current_player), die_roll)};
                         player_move(players, current_player, die_roll, board);
                         check_winner(players.at(current_player), winner);
                 }
