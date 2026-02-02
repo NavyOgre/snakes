@@ -33,7 +33,7 @@ void player_move(std::vector<Player> &players, const int id, const int die_roll,
                 player.bonus_turn = false;
         }
         if (player.position + die_roll > 99) {
-                std::cout << "You can't move!\n\n";
+                std::cout << player.name << " can't move!\n\n";
         } else {
                 player.position += die_roll;
                 resolve_move(board, player);
