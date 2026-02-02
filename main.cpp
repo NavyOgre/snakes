@@ -1,5 +1,6 @@
 #include <iostream>
 #include "board.hpp"
+#include "player.hpp"
 
 int main() {
         std::cout << "Hello and welcome to my snakes and ladders game!\n";
@@ -7,9 +8,10 @@ int main() {
         std::vector<Square> board;
         init_board(board);
         int load_action {ask_loading()};
+        std::vector<Player> players;
         if (load_action == 1) {
                 int game_type {ask_game_type()};
-                // initialize game
+                get_player_info(players, game_type);
         } else {
                 // initialize game from file
         }

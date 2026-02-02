@@ -75,8 +75,8 @@ std::string display_handle_case(const Square &square, const int position) {
 int ask_game_type() {
         int game_type {};
         std::cout << "Would you like to play against a bot or another human?\n";
-        std::cout << "1. Human\n";
-        std::cout << "2. Bot\n";
+        std::cout << "1. Bot\n";
+        std::cout << "2. Human\n";
         std::cout << "Enter your choice: ";
         do {
                 std::cin >> game_type;
