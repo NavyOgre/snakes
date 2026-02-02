@@ -5,5 +5,6 @@
 
 int ask_difficulty();
 void init_bot(const int difficulty, std::vector<Player> &players);
+int easy_shop(const Player &bot, const int die_roll);
 
 #endif

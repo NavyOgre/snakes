@@ -37,7 +37,19 @@ int main() {
                         turn_announce(players, current_player, die_roll, board);
                         shop_selection = get_shop_choice(players.at(current_player), die_roll);
                 } else {
-
+                        switch (players.at(current_player).bot) {
+                                case 1: {
+                                        shop_selection = easy_shop(players.at(current_player), die_roll);
+                                        break;
+                                }
+                                case 2: {
+                                        // normal shop
+                                        break;
+                                }
+                                case 3: {
+                                        // hard shop
+                                }
+                        }
                 }
                 shop_action(players.at(current_player), die_roll, shop_selection);
                 player_move(players, current_player, die_roll, board);
