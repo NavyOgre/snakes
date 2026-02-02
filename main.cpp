@@ -3,6 +3,7 @@
 #include "board.hpp"
 #include "player.hpp"
 #include "shop.hpp"
+#include "bot.hpp"
 
 int main() {
         std::cout << "Hello and welcome to my snakes and ladders game!\n";
@@ -14,7 +15,10 @@ int main() {
         std::vector<Player> players;
         if (load_action == 1) {
                 int game_type {ask_game_type()};
-                get_player_info(players, game_type); // bot not implemented yet
+                get_player_info(players, game_type);
+                if (game_type == 1) {
+                        int difficulty {ask_difficulty()};
+                }
         } else {
                 // initialize game from file
         }
