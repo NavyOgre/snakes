@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 #include "board.hpp"
 #include "player.hpp"
 #include "shop.hpp"
@@ -29,6 +30,7 @@ int main() {
                         players.at(current_player).bonus_turn = die_roll == 6 ? true : false;
                         turn_announce(players, current_player, die_roll, board);
                         int shop_selection {get_shop_choice(players.at(current_player), die_roll)};
+                        shop_action(players.at(current_player), die_roll, shop_selection);
                         player_move(players, current_player, die_roll, board);
                         check_winner(players.at(current_player), winner);
                 }

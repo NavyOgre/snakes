@@ -61,3 +61,38 @@ void check_valid(const Player &player, const int die_roll, int &shop_choice) {
                 }
         }
 }
+
+void shop_action(Player &player, int &die_roll, const int shop_choice) {
+        switch (shop_choice) {
+                case 1: {
+                        player.coin -= 1;
+                        die_roll -= 1;
+                        player.bonus_turn = false;
+                        std::cout << player.name << " used 1 coin to subtract 1 from their roll.\n";
+                        std::cout << "New roll: " << die_roll << "\n";
+                        break;
+                }
+                case 2: {
+                        player.coin -= 2;
+                        die_roll += 1;
+                        std::cout << player.name << " used 2 coin to add 1 to their roll.\n";
+                        std::cout << "New roll: " << die_roll << "\n";
+                        break;
+                }
+                case 3: {
+                        player.coin -= 3;
+                        die_roll = roll(6);
+                        std::cout << player.name << "used 3 coins to roll again.\n";
+                        std::cout << "New roll: " << die_roll << "\n";
+                        if (die_roll == 6) {
+                                player.bonus_turn = true;
+                        }
+                        break;
+                }
+                case 4: {
+                        player.coin -= 4;
+                        player.shield = true;
+                        std::cout << player.name << " used 4 coins to buy a shield.\n";
+                }
+        }
+}
