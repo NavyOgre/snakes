@@ -36,7 +36,7 @@ void player_move(std::vector<Player> &players, const int id, const int die_roll,
                 std::cout << player.name << " can't move!\n\n";
         } else {
                 player.position += die_roll;
-                resolve_move(board, player);
+                resolve_move(player);
                 check_hit(player, rival);
         }
 }
@@ -53,7 +53,7 @@ void check_hit(Player &player, Player &rival) {
         }
 }
 
-void resolve_move(const std::vector<Square> &board, Player &player) {
+void resolve_move(Player &player) {
         int &position {player.position};
         switch (board.at(position).type) {
                 case 'c': {

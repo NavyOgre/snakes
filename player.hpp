@@ -19,7 +19,7 @@ void player_move(std::vector<Player> &players, const int id, const int die_roll,
 
 // helper functions for player_move
 void check_hit(Player &player, Player &rival);
-void resolve_move(const std::vector<Square> &board, Player &player);
+void resolve_move(Player &player);
 // helper functions for player_move
 
 void check_winner(const Player &player, std::string &winner);
