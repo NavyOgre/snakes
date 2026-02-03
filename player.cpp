@@ -26,7 +26,7 @@ int roll(const int n) {
         return rand() % n + 1;
 }
 
-void player_move(std::vector<Player> &players, const int id, const int die_roll, const std::vector<Square> &board) {
+void player_move(std::vector<Player> &players, const int id, const int die_roll) {
         Player &player {players.at(id)};
         Player &rival {players.at(player.rival_id)};
         if (die_roll != 6) {

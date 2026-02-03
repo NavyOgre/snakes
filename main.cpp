@@ -9,8 +9,6 @@ int main() {
         std::cout << "Hello and welcome to my snakes and ladders game!\n";
         std::cout << "================================================\n\n\n";
         srand(time(0));
-        std::vector<Square> board;
-        init_board(board);
         int load_action {ask_loading()};
         std::vector<Player> players;
         int turn {0}, total_turns {0};
@@ -52,7 +50,7 @@ int main() {
                         }
                 }
                 shop_action(players.at(current_player), die_roll, shop_selection);
-                player_move(players, current_player, die_roll, board);
+                player_move(players, current_player, die_roll);
                 check_winner(players.at(current_player), winner);
                 if (!(players.at(current_player).bonus_turn)) {
                         ++turn;
