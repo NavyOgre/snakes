@@ -13,7 +13,7 @@ struct Player {
 };
 
 void get_player_info(std::vector<Player> &players, int player_cnt);
-void turn_announce(const std::vector<Player> &players, const int id, const int die_roll, const std::vector<Square> &board);
+void turn_announce(const std::vector<Player> &players, const int id, const int die_roll);
 int roll(const int n);
 void player_move(std::vector<Player> &players, const int id, const int die_roll, const std::vector<Square> &board);
 

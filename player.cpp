@@ -12,7 +12,7 @@ void get_player_info(std::vector<Player> &players, int players_cnt) {
         }
 }
 
-void turn_announce(const std::vector<Player> &players, const int id, const int die_roll, const std::vector<Square> &board) {
+void turn_announce(const std::vector<Player> &players, const int id, const int die_roll) {
         Player player {players.at(id)};
         std::cout << "It is your turn " << player.name << ".\n";
         std::cout << "Roll: " << die_roll << "\n";

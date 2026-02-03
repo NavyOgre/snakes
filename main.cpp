@@ -34,7 +34,7 @@ int main() {
                 int shop_selection {};
                 if (!(players.at(current_player).bot)) {
                         display_board();
-                        turn_announce(players, current_player, die_roll, board);
+                        turn_announce(players, current_player, die_roll);
                         shop_selection = get_shop_choice(players.at(current_player), die_roll);
                 } else {
                         switch (players.at(current_player).bot) {
