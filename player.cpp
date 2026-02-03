@@ -83,9 +83,3 @@ void resolve_move(Player &player) {
                 }
         }
 }
-
-void check_winner(const Player &player, std::string &winner) {
-        if (player.position == 99) {
-                winner = player.name;
-        }
-}

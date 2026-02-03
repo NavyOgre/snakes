@@ -51,7 +51,9 @@ int main() {
                 }
                 shop_action(players.at(current_player), die_roll, shop_selection);
                 player_move(players, current_player, die_roll);
-                check_winner(players.at(current_player), winner);
+                if (players.at(current_player).position == 99) {
+                        winner = players.at(current_player).name;
+                }
                 if (!(players.at(current_player).bonus_turn)) {
                         ++turn;
                 }

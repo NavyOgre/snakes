@@ -22,6 +22,4 @@ void check_hit(Player &player, Player &rival);
 void resolve_move(Player &player);
 // helper functions for player_move
 
-void check_winner(const Player &player, std::string &winner);
-
 #endif
