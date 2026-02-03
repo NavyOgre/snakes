@@ -10,7 +10,7 @@ struct Square {
 
 int ask_loading();
 void init_board(std::vector<Square> &board);
-void display_board(const std::vector<Square> &board);
+void display_board();
 
 // helper functions for display_board
 int find_position(int i, int j);

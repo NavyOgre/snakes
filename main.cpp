@@ -33,7 +33,7 @@ int main() {
                 players.at(current_player).bonus_turn = die_roll == 6 ? true : false;
                 int shop_selection {};
                 if (!(players.at(current_player).bot)) {
-                        display_board(board);
+                        display_board();
                         turn_announce(players, current_player, die_roll, board);
                         shop_selection = get_shop_choice(players.at(current_player), die_roll);
                 } else {
