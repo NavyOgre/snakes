@@ -13,7 +13,8 @@ struct Player {
 };
 
 void get_player_info(std::vector<Player> &players, int player_cnt);
-void turn_announce(const std::vector<Player> &players, const int id, const int die_roll);
+void turn_announce(const std::vector<Player> &players, const int id);
+int turn_action(const int turn, const int total_turns, const std::vector<Player> &players);
 int roll(const int n);
 void player_move(std::vector<Player> &players, const int id, const int die_roll);
 
@@ -21,5 +22,8 @@ void player_move(std::vector<Player> &players, const int id, const int die_roll)
 void check_hit(Player &player, Player &rival);
 void resolve_move(Player &player);
 // helper functions for player_move
+
+bool load_game(int &turn, int &total_turns, std::vector<Player> &players);
+void save_game(const int turn, const int total_turns, const std::vector<Player> &players);
 
 #endif

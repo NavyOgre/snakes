@@ -1,6 +1,7 @@
 #include "player.hpp"
 #include <iostream>
 #include <cstdlib>
+#include <fstream>
 
 void get_player_info(std::vector<Player> &players, int players_cnt) {
         std::string name;
@@ -12,10 +13,9 @@ void get_player_info(std::vector<Player> &players, int players_cnt) {
         }
 }
 
-void turn_announce(const std::vector<Player> &players, const int id, const int die_roll) {
+void turn_announce(const std::vector<Player> &players, const int id) {
         Player player {players.at(id)};
         std::cout << "It is your turn " << player.name << ".\n";
-        std::cout << "Roll: " << die_roll << "\n";
         std::cout << "Square: " << player.position + 1 << "\n";
         std::cout << "Coin: " << player.coin << "\n";
         std::cout << "Shield: " << player.shield << "\n";
@@ -82,4 +82,57 @@ void resolve_move(Player &player) {
                         std::cout << player.name << " moved to " << position + 1 << ".\n\n";
                 }
         }
+}
+
+bool load_game(int &turn, int &total_turns, std::vector<Player> &players) {
+        std::ifstream in_file {"./save.txt"};
+        if (!in_file) {
+                return false;
+        }
+        in_file >> turn >> total_turns;
+        std::string line;
+        for (int i {0}; i < 2; ++i) {
+                Player player;
+                in_file >> player.bot;
+                std::getline(in_file, line);
+                std::getline(in_file, line);
+                player.name = line;
+                in_file >> player.rival_id >> player.position >> player.coin;
+                in_file >> player.shield >> player.bonus_turn;
+                players.push_back(player);
+        }
+        in_file.close();
+        return true;
+}
+
+int turn_action(const int turn, const int total_turns, const std::vector<Player> &players) {
+        std::cout << "1. Roll die\n";
+        std::cout << "2. Save game\n";
+        std::cout << "3. Exit game\n";
+        std::cout << "Choose an option: ";
+        int action {};
+        do {
+                std::cin >> action;
+                if (action < 1 || action > 3) {
+                        std::cout << "Invalid choice, try again: ";
+                        continue;
+                } else if (action == 2) {
+                        save_game(turn, total_turns, players);
+                        std::cout << "Game saved!\n";
+                        std::cout << "Choose another option: ";
+                }
+        } while (action != 1 && action != 3);
+        return action;
+}
+
+void save_game(const int turn, const int total_turns, const std::vector<Player> &players) {
+        std::ofstream out_file("save.txt", std::ios::trunc);
+        out_file << turn << " " << total_turns << "\n";
+        for (int i {}; i < 2; ++i) {
+                out_file << players.at(i).bot << "\n";
+                out_file << players.at(i).name << "\n";
+                out_file << players.at(i).rival_id << " " << players.at(i).position << " " << players.at(i).coin << "\n";
+                out_file << players.at(i).shield << " " << players.at(i).bonus_turn << "\n";
+        }
+        out_file.close();
 }
