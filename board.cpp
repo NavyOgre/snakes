@@ -2,6 +2,50 @@
 #include <iostream>
 #include <iomanip>
 
+int run_main_menu(ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER *timer, ALLEGRO_EVENT &event, ALLEGRO_MOUSE_STATE &mouse_state) {
+        while (true) {
+                bool redraw {false}, get_load_action {false};
+                al_wait_for_event(queue, &event);
+                switch (event.type) {
+                        case ALLEGRO_EVENT_TIMER: {
+                                redraw = true;
+                                break;
+                        }
+                        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: {
+                                al_get_mouse_state(&mouse_state);
+                                get_load_action = true;
+                                break;
+                        }
+                        case ALLEGRO_EVENT_KEY_DOWN: {
+                                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                                        return 0;
+                                }
+                                break;
+                        }
+                        case ALLEGRO_EVENT_DISPLAY_CLOSE: {
+                                return 0;
+                        }
+                }
+                if (redraw && al_is_event_queue_empty(queue)) {
+                        al_clear_to_color(al_map_rgb(151, 217, 252));
+                        al_draw_filled_rectangle(462, 276, 562, 316, al_map_rgb(38, 78, 99));
+                        al_draw_text(font, al_map_rgb(0, 0, 0), 512, 284, ALLEGRO_ALIGN_CENTER, "New game");
+                        al_draw_filled_rectangle(462, 406, 562, 446, al_map_rgb(38, 78, 99));
+                        al_draw_text(font, al_map_rgb(0, 0, 0), 512, 414, ALLEGRO_ALIGN_CENTER, "Load game");
+                        al_flip_display();
+                        redraw = false;
+                }
+                if (get_load_action) {
+                        if (mouse_state.x <= 562 && mouse_state.x >= 462 && mouse_state.y <= 316 && mouse_state.y >= 276) {
+                                return 1;
+                        } else if (mouse_state.x <= 562 && mouse_state.x >= 462 && mouse_state.y <= 446 && mouse_state.y >= 406) {
+                                return 2;
+                        }
+                        get_load_action = false;
+                }
+        }
+}
+
 int ask_loading() {
         std::cout << "Would you like to start a new game or load the previous one?\n";
         std::cout << "1. New game\n";
