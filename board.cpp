@@ -36,6 +36,7 @@ int run_main_menu(ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER 
                 }
                 if (redraw && al_is_event_queue_empty(queue)) {
                         al_clear_to_color(al_map_rgb(151, 217, 252));
+                        al_draw_text(font, al_map_rgb(0, 0, 0), 320, 100, ALLEGRO_ALIGN_CENTER, "Welcome to my snakes and ladders game!");
                         al_draw_filled_rectangle(270, 192, 370, 232, al_map_rgb(38, 78, 99));
                         al_draw_text(font, al_map_rgb(0, 0, 0), 320, 200, ALLEGRO_ALIGN_CENTER, "New game");
                         al_draw_filled_rectangle(270, 252, 370, 292, al_map_rgb(38, 78, 99));
@@ -84,20 +85,4 @@ std::string display_handle_case(const Square &square, const int position) {
                 }
         }
         return output;
-}
-
-int ask_game_type() {
-        int game_type {};
-        std::cout << "Would you like to play against a bot or another human?\n";
-        std::cout << "1. Bot\n";
-        std::cout << "2. Human\n";
-        std::cout << "Enter your choice: ";
-        do {
-                std::cin >> game_type;
-                if (game_type != 1 && game_type != 2) {
-                        std::cout << "Invalid choice, try again: ";
-                }
-        } while (game_type != 1 && game_type != 2);
-        std::cout << "\n\n";
-        return game_type;
 }
