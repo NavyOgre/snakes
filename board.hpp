@@ -26,7 +26,6 @@ const std::vector<Square> board = {
 };
 
 int run_main_menu(ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER *timer, ALLEGRO_EVENT &event, ALLEGRO_MOUSE_STATE &mouse_state);
-int ask_loading();
 void display_board();
 
 // helper functions for display_board
