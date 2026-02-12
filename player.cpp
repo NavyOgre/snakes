@@ -48,7 +48,46 @@ int ask_game_type(ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER 
         }
 }
 
-
+void get_player_info(std::vector<Player> &players, const int p_number, ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER *timer, ALLEGRO_EVENT &event, bool &done) {
+        std::string info_message {"Enter player " + std::to_string(p_number) + " name:"};
+        int ascii_letter {abs('a' - ALLEGRO_KEY_A)};
+        std::string name;
+        while (true) {
+                bool redraw {false}, get_player_name {false};
+                al_wait_for_event(queue, &event);
+                switch (event.type) {
+                        case ALLEGRO_EVENT_TIMER: {
+                                redraw = true;
+                                break;
+                        }
+                        case ALLEGRO_EVENT_DISPLAY_CLOSE: {
+                                done = true;
+                                return;
+                        }
+                        case ALLEGRO_EVENT_KEY_DOWN: {
+                                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                                        done = true;
+                                        return;
+                                } else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
+                                        get_player_name = true;
+                                } else if (event.keyboard.keycode >= ALLEGRO_KEY_A || event.keyboard.keycode <= ALLEGRO_KEY_Z) {
+                                        name += static_cast<char>(event.keyboard.keycode + ascii_letter);
+                                }
+                        }
+                }
+                if (get_player_name) {
+                        players.push_back(Player {0, name, p_number % 2, 0, 0, false, false});
+                        break;
+                }
+                if (redraw && al_is_event_queue_empty(queue)) {
+                        al_clear_to_color(al_map_rgb(151, 217, 252));
+                        al_draw_text(font, al_map_rgb(0, 0, 0), 320, 100, ALLEGRO_ALIGN_CENTER, info_message.c_str());
+                        al_draw_multiline_text(font, al_map_rgb(0, 0, 0), 320, 120, 30, 5, ALLEGRO_ALIGN_CENTER, name.c_str());
+                        al_flip_display();
+                        redraw = false;
+                }
+        }
+}
 
 void turn_announce(const std::vector<Player> &players, const int id) {
         Player player {players.at(id)};

@@ -3,7 +3,6 @@
 #include "player.hpp"
 #include "shop.hpp"
 #include "bot.hpp"
-#include <iostream> // for testing
 
 int main(int argc, char **argv) {
         srand(time(NULL));
@@ -30,19 +29,27 @@ int main(int argc, char **argv) {
                 int turn {0}, total_turns {0}, game_type {0};
                 std::vector<Player> players;
                 int load_action {run_main_menu(font, queue, timer, event, mouse_state)};
-                std::cout << load_action << "\n";
                 if (!load_action) {
                         break;
                 }
                 if (load_action == 1) {
                         game_type = ask_game_type(font, queue, timer, event, mouse_state);
-                        std::cout << game_type << "\n";
                         if (!game_type) {
                                 break;
                         }
-                        for (int i {1}; i <= 2; ++i) {
-                                
+                        for (int i {1}; i <= game_type; ++i) {
+                                get_player_info(players, i, font, queue, timer, event, done);
+                                if (done) {
+                                        break;
+                                }
                         }
+                        if (done) {
+                                break;
+                        }
+                        if (game_type == 1) {
+                                players.push_back(Player {1, "Bot", 0, 0, 0, false, false});
+                        }
+                        game_initialized = true;
                 } else {
                         game_initialized = load_game(turn, total_turns, players);
                 }

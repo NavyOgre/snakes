@@ -13,7 +13,7 @@ struct Player {
 };
 
 int ask_game_type(ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER *timer, ALLEGRO_EVENT &event, ALLEGRO_MOUSE_STATE &mouse_state);
-void get_player_info(std::vector<Player> &players, const int p_number, ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER *timer, ALLEGRO_EVENT &event);
+void get_player_info(std::vector<Player> &players, const int p_number, ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER *timer, ALLEGRO_EVENT &event, bool &done);
 void turn_announce(const std::vector<Player> &players, const int id);
 int turn_action(const int turn, const int total_turns, const std::vector<Player> &players);
 int roll(const int n);
