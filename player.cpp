@@ -89,13 +89,29 @@ void get_player_info(std::vector<Player> &players, const int p_number, ALLEGRO_F
         }
 }
 
-void turn_announce(const std::vector<Player> &players, const int id) {
-        Player player {players.at(id)};
-        std::cout << "It is your turn " << player.name << ".\n";
-        std::cout << "Square: " << player.position + 1 << "\n";
-        std::cout << "Coin: " << player.coin << "\n";
-        std::cout << "Shield: " << player.shield << "\n";
-        std::cout << "Rival square: " << players.at(player.rival_id).position + 1 << "\n\n";
+void run_game(std::vector<Player> &players, ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER *timer, ALLEGRO_EVENT &event, bool done) {
+        int turn {0};
+        ALLEGRO_BITMAP *map {al_load_bitmap("./assets/board.jpg")};
+        while (true) {
+                bool redraw {false}, move {false}, shop {false};
+                al_wait_for_event(queue, &event);
+                switch (event.type) {
+                        case ALLEGRO_EVENT_TIMER: {
+                                redraw = true;
+                                break;
+                        }
+                        case ALLEGRO_EVENT_DISPLAY_CLOSE: {
+                                done = true;
+                                return;
+                        }
+                        case ALLEGRO_KEY_ESCAPE: {
+                                done = true;
+                                return;
+                        }
+                        
+                }
+        }
+        al_destroy_bitmap(map);
 }
 
 int roll(const int n) {

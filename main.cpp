@@ -10,6 +10,7 @@ int main(int argc, char **argv) {
         al_init_font_addon();
         al_init_ttf_addon();
         al_init_primitives_addon();
+        al_init_image_addon();
         al_install_mouse();
         al_install_keyboard();
         ALLEGRO_DISPLAY *display {al_create_display(640, 480)};
@@ -54,7 +55,8 @@ int main(int argc, char **argv) {
                         game_initialized = load_game(turn, total_turns, players);
                 }
                 if (game_initialized) {
-                        // game start
+                        al_resize_display(display, 1024, 768);
+                        run_game(players, font, queue, timer, event, done);
                 } else {
                         // load fail message
                 }
