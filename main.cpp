@@ -56,9 +56,15 @@ int main(int argc, char **argv) {
                 }
                 if (game_initialized) {
                         al_resize_display(display, 1024, 768);
-                        run_game(players, font, queue, timer, event, done);
-                } else {
-                        // load fail message
+                        std::string winner;
+                        run_game(players, font, queue, timer, event, done, winner);
+                        if (done) {
+                                break;
+                        }
+                        al_resize_display(display, 640, 480);
+                        if (!winner.empty()) {
+                                announce_winner(font, queue, timer, event, winner, done);
+                        }
                 }
         }
         al_destroy_display(display);

@@ -1,4 +1,6 @@
 #include "player.hpp"
+#include "shop.hpp"
+#include "bot.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
@@ -91,7 +93,7 @@ void get_player_info(std::vector<Player> &players, const int p_number, ALLEGRO_F
         }
 }
 
-void run_game(std::vector<Player> &players, ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER *timer, ALLEGRO_EVENT &event, bool &done) {
+void run_game(std::vector<Player> &players, ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER *timer, ALLEGRO_EVENT &event, bool &done, std::string &winner) {
         int turn {0};
         ALLEGRO_BITMAP *map {al_load_bitmap("./assets/board.jpg")};
         int current_player {};
@@ -119,23 +121,23 @@ void run_game(std::vector<Player> &players, ALLEGRO_FONT *font, ALLEGRO_EVENT_QU
                                         return;
                                 }
                                 switch (event.keyboard.keycode) {
-                                        case 0: {
+                                        case ALLEGRO_KEY_0: {
                                                 command = 0;
                                                 break;
                                         }
-                                        case 1: {
+                                        case ALLEGRO_KEY_1: {
                                                 command = 1;
                                                 break;
                                         }
-                                        case 2: {
+                                        case ALLEGRO_KEY_2: {
                                                 command = 2;
                                                 break;
                                         }
-                                        case 3: {
+                                        case ALLEGRO_KEY_3: {
                                                 command = 3;
                                                 break;
                                         }
-                                        case 4: {
+                                        case ALLEGRO_KEY_4: {
                                                 command = 4;
                                         }
                                 }
@@ -149,12 +151,6 @@ void run_game(std::vector<Player> &players, ALLEGRO_FONT *font, ALLEGRO_EVENT_QU
                 std::string player1_info, player2_info;
                 player1_info = players[0].name + "  shield: " + std::to_string(players[0].shield) + "  coins: " + std::to_string(players[0].coin);
                 player2_info = players[1].name + "  shield: " + std::to_string(players[1].shield) + "  coins: " + std::to_string(players[1].coin);
-                std::string turn_announce;
-                turn_announce = "It is your turn " + players[current_player].name + "\n1. Roll\n2. Save";
-                std::string shop_announce;
-                shop_announce = "Would you like to buy from the shop?\n0. continue\n1. -1 from roll(1c)\n2. +1 to roll(2c)\n3. reroll(3c)\n4. buy shield(4c)";
-                std::string roll_announce;
-                roll_announce = "You rolled " + std::to_string(die_roll);
                 if (redraw && al_is_event_queue_empty(queue)) {
                         al_clear_to_color(al_map_rgb(151, 217, 252));
                         al_draw_bitmap(map, 0, 0, 0);
@@ -164,9 +160,15 @@ void run_game(std::vector<Player> &players, ALLEGRO_FONT *font, ALLEGRO_EVENT_QU
                         find_position(p2_x, p2_y, players[1].position);
                         al_draw_filled_circle(p1_x, p1_y, 10, player1_color);
                         al_draw_filled_circle(p2_x, p2_y + 25, 10, player2_color);
-                        if (waiting_move) {
+                        if (waiting_move && !(players[current_player].bot)) {
+                                std::string turn_announce;
+                                turn_announce = "It is your turn " + players[current_player].name + "\n1. Roll\n2. Save";
                                 al_draw_multiline_text(font, black, 700, 0, 100, 20, ALLEGRO_ALIGN_LEFT, turn_announce.c_str());
                         } else if (waiting_shop && !players[current_player].bot) {
+                                std::string shop_announce;
+                                shop_announce = "Would you like to buy from the shop?\n0. continue\n1. -1 from roll(1c)\n2. +1 to roll(2c)\n3. reroll(3c)\n4. buy shield(4c)";
+                                std::string roll_announce;
+                                roll_announce = "You rolled " + std::to_string(die_roll);
                                 al_draw_multiline_text(font, black, 700, 0, 100, 20, ALLEGRO_ALIGN_LEFT, shop_announce.c_str());
                                 al_draw_text(font, black, 700, 180, 0, roll_announce.c_str());
                         }
@@ -188,16 +190,64 @@ void run_game(std::vector<Player> &players, ALLEGRO_FONT *font, ALLEGRO_EVENT_QU
                                 get_move = false;
                         }
                 } else if (get_shop && (command >= 0 && command <= 4)) {
-                        if (valid_shop(players[current_player].coin, command, die_roll, players[current_player].shield)) {
-                                player_move(players, current_player, die_roll);
-                                ++turn;
+                        if (players[current_player].bot) {
+                                command = easy_shop(players[current_player], die_roll);
+                                shop_action(players[current_player], die_roll, command);
+                                if (!players[current_player].bonus_turn) {
+                                        ++turn;
+                                }
                                 waiting_shop = false;
                                 waiting_move = true;
+                        } else if (valid_shop(players[current_player].coin, command, die_roll, players[current_player].shield)) {
+                                shop_action(players[current_player], die_roll, command);
+                                player_move(players, current_player, die_roll);
+                                if (!players[current_player].bonus_turn) {
+                                        ++turn;
+                                }
+                                waiting_shop = false;
+                                waiting_move = true;
+                        }
+                        if (players[current_player].position == 99) {
+                                winner = players[current_player].name;
+                                break;
                         }
                         get_shop = false;
                 }
         }
         al_destroy_bitmap(map);
+}
+
+void announce_winner(ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER *timer, ALLEGRO_EVENT &event, const std::string &winner, bool &done) {
+        std::string final_message;
+        final_message = winner + " won the game!! Press enter to return to main menu.";
+        while (true) {
+                bool redraw {false};
+                al_wait_for_event(queue, &event);
+                switch (event.type) {
+                        case ALLEGRO_EVENT_DISPLAY_CLOSE: {
+                                done = true;
+                                return;
+                        }
+                        case ALLEGRO_EVENT_KEY_DOWN: {
+                                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                                        done = true;
+                                        return;
+                                } else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
+                                        return;
+                                }
+                                break;
+                        }
+                        case ALLEGRO_EVENT_TIMER: {
+                                redraw = true;
+                        }
+                }
+                if (redraw && al_is_event_queue_empty(queue)) {
+                        al_clear_to_color(al_map_rgb(151, 217, 252));
+                        al_draw_text(font, al_map_rgb(0, 0, 0), 320, 100, ALLEGRO_ALIGN_CENTER, final_message.c_str());
+                        al_flip_display();
+                        redraw = false;
+                }
+        }
 }
 
 void find_position(int &px, int &py, const int position) {
@@ -315,26 +365,6 @@ bool load_game(int &turn, std::vector<Player> &players) {
         }
         in_file.close();
         return true;
-}
-
-int turn_action(const int turn, const int total_turns, const std::vector<Player> &players) {
-        std::cout << "1. Roll die\n";
-        std::cout << "2. Save game\n";
-        std::cout << "3. Exit game\n";
-        std::cout << "Choose an option: ";
-        int action {};
-        do {
-                std::cin >> action;
-                if (action < 1 || action > 3) {
-                        std::cout << "Invalid choice, try again: ";
-                        continue;
-                } else if (action == 2) {
-                        save_game(turn, players);
-                        std::cout << "Game saved!\n";
-                        std::cout << "Choose another option: ";
-                }
-        } while (action != 1 && action != 3);
-        return action;
 }
 
 void save_game(const int turn, const std::vector<Player> &players) {

@@ -27,11 +27,5 @@ const std::vector<Square> board = {
 };
 
 int run_main_menu(ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER *timer, ALLEGRO_EVENT &event, ALLEGRO_MOUSE_STATE &mouse_state);
-void display_board();
-
-// helper functions for display_board
-int find_position(int i, int j);
-std::string display_handle_case(const Square &square, const int position);
-// helper functions for display_board
 
 #endif
