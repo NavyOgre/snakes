@@ -12,8 +12,10 @@ int run_main_menu(ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_TIMER 
                                 break;
                         }
                         case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: {
-                                al_get_mouse_state(&mouse_state);
-                                get_load_action = true;
+                                if (event.mouse.button == ALLEGRO_MOUSE_BUTTON_LEFT) {
+                                        al_get_mouse_state(&mouse_state);
+                                        get_load_action = true;
+                                }
                                 break;
                         }
                         case ALLEGRO_EVENT_KEY_DOWN: {

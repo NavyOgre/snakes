@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
         bool done {false};
         while (!done) {
                 bool game_initialized {false};
-                int turn {0}, total_turns {0}, game_type {0};
+                int turn {0}, game_type {0};
                 std::vector<Player> players;
                 int load_action {run_main_menu(font, queue, timer, event, mouse_state)};
                 if (!load_action) {
@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
                         }
                         game_initialized = true;
                 } else {
-                        game_initialized = load_game(turn, total_turns, players);
+                        game_initialized = load_game(turn, players);
                 }
                 if (game_initialized) {
                         al_resize_display(display, 1024, 768);
