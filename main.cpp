@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
                                 break;
                         }
                         if (game_type == 1) {
-                                players.push_back(Player {1, "Bot", 0, 0, 0, false, false});
+                                players.push_back(Player {1, "bot", 0, 0, 0, false, false});
                         }
                         game_initialized = true;
                 } else {

@@ -105,6 +105,20 @@ void run_game(std::vector<Player> &players, ALLEGRO_FONT *font, ALLEGRO_EVENT_QU
                 current_player = turn % 2;
                 bool redraw {false}, get_move {false}, get_shop {false};
                 int command {0};
+                if (players[current_player].bot) {
+                        die_roll = roll(6);
+                        command = easy_shop(players[current_player], die_roll);
+                        shop_action(players[current_player], die_roll, command);
+                        if (!players[current_player].bonus_turn) {
+                                ++turn;
+                        }
+                        player_move(players, current_player, die_roll);
+                        if (players[current_player].position == 99) {
+                                winner = players[current_player].name;
+                                break;
+                        }
+                        continue;
+                }
                 al_wait_for_event(queue, &event);
                 switch (event.type) {
                         case ALLEGRO_EVENT_TIMER: {
@@ -190,15 +204,7 @@ void run_game(std::vector<Player> &players, ALLEGRO_FONT *font, ALLEGRO_EVENT_QU
                                 get_move = false;
                         }
                 } else if (get_shop && (command >= 0 && command <= 4)) {
-                        if (players[current_player].bot) {
-                                command = easy_shop(players[current_player], die_roll);
-                                shop_action(players[current_player], die_roll, command);
-                                if (!players[current_player].bonus_turn) {
-                                        ++turn;
-                                }
-                                waiting_shop = false;
-                                waiting_move = true;
-                        } else if (valid_shop(players[current_player].coin, command, die_roll, players[current_player].shield)) {
+                        if (valid_shop(players[current_player].coin, command, die_roll, players[current_player].shield)) {
                                 shop_action(players[current_player], die_roll, command);
                                 player_move(players, current_player, die_roll);
                                 if (!players[current_player].bonus_turn) {
